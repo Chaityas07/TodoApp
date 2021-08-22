@@ -12,7 +12,7 @@ It has an auto-generated Id, Title for the task title , Desc or a brief for Todo
 
 task complete which shows the todo is completed or not completed
 
-## API Reference
+## Reference
 
 ### home
 
@@ -76,10 +76,62 @@ task complete which shows the todo is completed or not completed
 - Deletes a task
 
 
-## src\main\java\com\springrest\springrest\entities\Todo
- It contains Constructor and the Getters Setters method   
+### src\main\java\com\springrest\springrest\service
+ It contains methods
+ 
+ getTodo()- get todos from the database,
+ 
+ addTodo() - Add the todos into  the database,
+ 
+ updateTodo() - updates the todo into the databas and
+ 
+ deleteTodo() -delete todos from the database
 
 ```java
+@Service
+public class TodoServicesImpl implements TodoService {
+
+	@Autowired
+	private TodoRepo todorepo;
+
+	public TodoServicesImpl() {
+
+	}
+
+	@Override
+	public List<Todo> getTodo() {
+		return todorepo.findAll();
+	}
+
+	@Override
+	public Todo addTodo(Todo todo) {
+
+		todorepo.save(todo);
+		return todo;
+	}
+
+	@Override
+	public Todo updateTodo(Todo todo) {
+		todorepo.save(todo);
+		return todo;
+	}
+
+	@Override
+	public Todo deleteTodo(long parseLong) {
+		Todo e = todorepo.getOne(parseLong);
+		todorepo.delete(e);
+		return e;
+	}
+	
+}
+```
+
+
+## src\main\java\com\springrest\springrest\entities\Todo
+ It contains Constructor and the Getters Setters methods.  
+
+```java
+@Entity
 public class Todo {
 
 	@Id
@@ -141,5 +193,9 @@ public class Todo {
 	}
 	
 }
-
-  
+```
+## application.properties
+Local host and databasename 
+```
+spring.datasource.url=jdbc:mysql://localhost:3306/tododatabase
+```
